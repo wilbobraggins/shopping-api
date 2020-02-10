@@ -47,7 +47,7 @@ RSpec.describe Api::V1::ProductsController, type: :controller do
       it "does not create a new Product" do
         expect do
           post :create, params: { product: invalid_attributes }
-        end.to change(Movie, :count).by(0)
+        end.to change(Product, :count).by(0)
       end
 
       it "returns a 422 status code" do
@@ -70,7 +70,7 @@ RSpec.describe Api::V1::ProductsController, type: :controller do
       it "updates the requested product" do
         product = create(:product)
         put :update, params: { id: product.to_param, product: new_attributes }
-        movie.reload
+        product.reload
         expect(product.attributes).to include("item" => "Pie")
       end
 
@@ -84,7 +84,7 @@ RSpec.describe Api::V1::ProductsController, type: :controller do
 
     context "with invalid params" do
       it "returns a 422 status code" do
-        movie = create(:product)
+        product = create(:product)
 
         put :update, params: { id: product.to_param, product: invalid_attributes }
         expect(response).to have_http_status(:unprocessable_entity)

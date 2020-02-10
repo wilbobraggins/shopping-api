@@ -11,7 +11,7 @@ class Api::V1::ProductsController < Api::V1::ApiController
   end
 
   def create
-    @product = serializer.new(Product.new(product_params))
+    @product = Product.new(product_params)
 
     if @product.save
       render json: @product, status: :created
