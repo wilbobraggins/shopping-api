@@ -2,18 +2,16 @@ class Api::V1::ProductsController < Api::V1::ApiController
   before_action :set_product, only: %i[show update destroy]
   
   def index
-    @products = Product.all
-    @json_string = ProductSerializer.new(@products)
 
-    render json: @json_string
+    render json: serializer.new(Product.all)
   end
 
   def show
-    render json: ProductSerializer.new(@product)
+    render json: serializer.new(Product.find(params[:id]))
   end
 
   def create
-    @product = Product.new(product_params)
+    @product = serializer.new(Product.new(product_params))
 
     if @product.save
       render json: @product, status: :created
@@ -35,6 +33,10 @@ class Api::V1::ProductsController < Api::V1::ApiController
   end
 
   private
+
+  def serializer
+    ProductSerializer
+  end
 
   def set_product
     @product = Product.find(params[:id])
