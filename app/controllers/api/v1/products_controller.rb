@@ -3,12 +3,13 @@ class Api::V1::ProductsController < Api::V1::ApiController
   
   def index
     @products = Product.all
+    @json_string = ProductSerializer.new(@products)
 
-    render json: @products
+    render json: @json_string
   end
 
   def show
-    render json: @product
+    render json: ProductSerializer.new(@product)
   end
 
   def create
